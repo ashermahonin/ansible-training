@@ -1,0 +1,36 @@
+# Step 1
+- name: provisioning web server
+  hosts: web
+  become: yes #if ansible needs root
+
+  tasks:
+  - name: Ensure nginx packages is present
+    apt:
+      name: nginx
+      state: present
+
+  - name: Ensure index.html is present
+    copy:
+      src: index.html
+      destr: /var/www/html
+
+  - name: Ensure nginx service is starder
+    service:
+      name: nginx
+      state: started
+
+# Step2
+- name: provisioning database
+  hosts: db
+  become: yes
+
+  tasks:
+    name: Ensure postgresql package is present
+    apt: 
+      name: postgresql
+      state: present
+
+- name: Ensure postgresql service is started
+  service: 
+    name: postgresql
+    state: started
